@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Scouting Réglementaire</title>
+    <style>
+        :root {
+            --bg-main: #0f172a;
+            --bg-elevated: #0b1120;
+            --bg-card: #020617;
+            --border-subtle: #1e293b;
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --accent-1: #22c55e;
+            --accent-2: #eab308;
+            --accent-3: #f97316;
+            --accent-4: #38bdf8;
+            --danger: #ef4444;
+            --radius-lg: 14px;
+            --radius-md: 10px;
+            --shadow-soft: 0 14px 45px rgba(15, 23, 42, 0.8);
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f3f4f6;
+            --bg-elevated: #ffffff;
+            --bg-card: #f9fafb;
+            --border-subtle: #e5e7eb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --shadow-soft: 0 18px 35px rgba(15, 23, 42, 0.18);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: radial-gradient(circle at top left, #1f2937 0, var(--bg-main) 40%, #020617 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .app-shell {
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        /* Top bar */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-badge {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, .6);
+            color: var(--text-muted);
+        }
+
+        .top-title {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            padding: 7px 14px;
+            font-size: 13px;
+            background: rgba(15, 23, 42, .75);
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all .18s ease-out;
+        }
+
+        [data-theme="light"] .btn {
+            background: #ffffff;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9, #22c55e);
+            border: none;
+            color: white;
+            box-shadow: 0 10px 22px rgba(56, 189, 248, .28);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 35px rgba(56, 189, 248, .33);
+        }
+
+        .btn-ghost {
+            background: transparent;
+        }
+
+        .btn-ghost:hover {
+            background: rgba(148, 163, 184, 0.14);
+        }
+
+        /* Layout */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 260px minmax(0, 1fr);
+            gap: 18px;
+        }
+
+        @media (max-width: 980px) {
+            .layout-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            padding: 16px 14px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .sidebar-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .sidebar-item {
+            border-radius: 9px;
+            padding: 8px 10px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all .16s ease-out;
+        }
+
+        .sidebar-item span:first-child {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-item.active {
+            background: linear-gradient(135deg, rgba(56, 189, 248, .15), rgba(22, 163, 74, .3));
+            color: var(--text-main);
+            border: 1px solid rgba(56, 189, 248, 0.7);
+        }
+
+        .sidebar-item:hover:not(.active) {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.45);
+        }
+
+        .sidebar-chip {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+        }
+
+        .sidebar-footer {
+            border-top: 1px dashed var(--border-subtle);
+            padding-top: 10px;
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Main */
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .summary-card {
+            background: var(--bg-elevated);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            padding: 18px 18px 14px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .summary-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .summary-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--text-muted);
+        }
+
+        .summary-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .risk-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(248, 250, 252, .06);
+        }
+
+        .risk-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: var(--accent-3);
+            box-shadow: 0 0 10px rgba(249, 115, 22, .8);
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        @media (max-width: 880px) {
+            .metrics-row {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 540px) {
+            .metrics-row {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 10px 11px;
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all .16s ease-out;
+        }
+
+        .metric-card:hover {
+            border-color: rgba(148, 163, 184, 0.7);
+            transform: translateY(-1px);
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .metric-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .pill-green {
+            color: var(--accent-1);
+        }
+
+        .pill-amber {
+            color: var(--accent-2);
+        }
+
+        .pill-red {
+            color: var(--danger);
+        }
+
+        /* Horizon grid */
+        .horizon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        @media (max-width: 1024px) {
+            .horizon-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .horizon-card {
+            background: var(--bg-elevated);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            padding: 15px 14px 14px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .horizon-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .horizon-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .horizon-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, .6);
+            color: var(--text-muted);
+        }
+
+        .horizon-kpis {
+            margin-bottom: 10px;
+        }
+
+        .kpi-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 12px;
+            padding: 4px 0;
+        }
+
+        .kpi-row + .kpi-row {
+            border-top: 1px dashed var(--border-subtle);
+        }
+
+        .kpi-label {
+            color: var(--text-muted);
+        }
+
+        .kpi-target {
+            font-weight: 500;
+        }
+
+        .kpi-target span {
+            font-size: 11px;
+            color: var(--accent-4);
+            margin-left: 4px;
+        }
+
+        .horizon-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--text-muted);
+            margin: 10px 0 4px;
+        }
+
+        .horizon-list {
+            font-size: 12px;
+            list-style: none;
+        }
+
+        .horizon-list li {
+            padding: 2px 0;
+        }
+
+        .horizon-list li::before {
+            content: "•";
+            margin-right: 6px;
+            color: var(--accent-4);
+        }
+
+        .horizon-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .confidence-pill {
+            padding: 2px 7px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, .7);
+        }
+
+        /* Timeline & sources layout */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.3fr);
+            gap: 14px;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 980px) {
+            .bottom-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .timeline-card,
+        .sources-card {
+            background: var(--bg-elevated);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            padding: 14px 14px 14px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--text-muted);
+        }
+
+        .section-tools {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .select {
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            color: var(--text-main);
+            padding: 3px 9px;
+            font-size: 11px;
+        }
+
+        /* Timeline list */
+        .timeline-list {
+            margin-top: 6px;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 80px minmax(0, 1fr);
+            gap: 10px;
+            font-size: 12px;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--border-subtle);
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 70px;
+            top: 15px;
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--accent-4);
+        }
+
+        .timeline-date {
+            color: var(--text-muted);
+        }
+
+        .timeline-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .timeline-label {
+            font-weight: 500;
+        }
+
+        .timeline-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Sources */
+        .sources-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .source-pill {
+            font-size: 11px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            cursor: pointer;
+            transition: all .16s ease-out;
+        }
+
+        .source-pill:hover {
+            border-color: var(--accent-4);
+            box-shadow: 0 8px 18px rgba(56, 189, 248, .28);
+            transform: translateY(-1px);
+        }
+
+        .source-pill.active {
+            background: rgba(56, 189, 248, 0.12);
+            border-color: var(--accent-4);
+            color: var(--accent-4);
+        }
+
+        .sources-footnote {
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Mini chart (fake sparkline) */
+        .sparkline {
+            width: 100%;
+            height: 40px;
+            margin-top: 6px;
+            position: relative;
+        }
+
+        .sparkline svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: fixed;
+            background: rgba(15, 23, 42, .95);
+            color: #e5e7eb;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity .08s ease-out, transform .08s ease-out;
+            border: 1px solid rgba(148, 163, 184, .7);
+            z-index: 50;
+        }
+
+        [data-theme="light"] .tooltip {
+            background: #111827;
+            color: #f9fafb;
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+<div class="app-shell">
+    <!-- Top bar -->
+    <div class="top-bar">
+        <div class="top-left">
+            <div class="app-badge">Regulatory scouting</div>
+            <div class="top-title">Dashboard Scouting Réglementaire</div>
+        </div>
+        <div class="top-actions">
+            <button class="btn btn-ghost" id="themeToggle">Mode clair</button>
+            <button class="btn btn-ghost" id="simulateBtn">Simuler maj</button>
+            <button class="btn btn-primary">
+                <span>Exporter état</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="layout-grid">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section-title">Vues</div>
+            <ul class="sidebar-list" id="viewList">
+                <li class="sidebar-item active" data-view="all">
+                    <span><span>•</span>Vue générale</span>
+                    <span class="sidebar-chip">H1/H2/H3</span>
+                </li>
+                <li class="sidebar-item" data-view="h1">
+                    <span><span>H1</span>Compliance</span>
+                    <span class="sidebar-chip">Risque court terme</span>
+                </li>
+                <li class="sidebar-item" data-view="h2">
+                    <span><span>H2</span>Upcoming rules</span>
+                    <span class="sidebar-chip">12–36 mois</span>
+                </li>
+                <li class="sidebar-item" data-view="h3">
+                    <span><span>H3</span>Future signals</span>
+                    <span class="sidebar-chip">> 3 ans</span>
+                </li>
+            </ul>
+
+            <div class="sidebar-section-title">Filtres rapides</div>
+            <ul class="sidebar-list" id="quickFilters">
+                <li class="sidebar-item" data-filter="risk">
+                    <span><span>⚠</span>Montrer uniquement le risque</span>
+                </li>
+                <li class="sidebar-item" data-filter="innovation">
+                    <span><span>✧</span>Focus innovation</span>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div>Horloge système: <span id="sidebarClock">--:--:--</span></div>
+                <div>Confiance calcul : 97,8%</div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-panel">
+            <!-- Summary -->
+            <section class="summary-card">
+                <div class="summary-top">
+                    <div class="summary-title">État global du scouting</div>
+                    <div class="summary-right">
+                        <span>Dernière synchronisation: <span id="lastSync">06/05/2026 09:58</span></span>
+                        <span class="risk-pill">
+                            <span class="risk-dot" id="riskDot"></span>
+                            <span id="riskLabel">Risque global: moyen</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="metrics-row">
+                    <div class="metric-card" data-tooltip="Date et heure de la dernière mise à jour consolidée.">
+                        <div class="metric-label">Dernière MAJ</div>
+                        <div class="metric-value" id="metricMaj">06/05/2026</div>
+                        <div class="metric-sub" id="metricMajTime">09:58:00</div>
+                    </div>
+                    <div class="metric-card" data-tooltip="Nombre total de sources suivies dans le scope.">
+                        <div class="metric-label">Nb sources</div>
+                        <div class="metric-value" id="metricSources">45</div>
+                        <div class="metric-sub">Officielles, industrie, experts</div>
+                    </div>
+                    <div class="metric-card" data-tooltip="Couverture estimée du périmètre réglementaire pertinent.">
+                        <div class="metric-label">Couverture</div>
+                        <div class="metric-value" id="metricCoverage">85%</div>
+                        <div class="metric-sub pill-green">Target: ≥ 90%</div>
+                    </div>
+                    <div class="metric-card" data-tooltip="Score de maturité global du dispositif de scouting.">
+                        <div class="metric-label">Maturité scouting</div>
+                        <div class="metric-value" id="metricMaturity">74</div>
+                        <div class="metric-sub">/100 · en progression</div>
+                    </div>
+                </div>
+                <div class="sparkline" id="sparklineContainer">
+                    <!-- JS injecte un mini graph -->
+                </div>
+            </section>
+
+            <!-- Horizons -->
+            <section class="horizon-grid">
+                <!-- H1 -->
+                <article class="horizon-card" data-horizon="h1">
+                    <div class="horizon-header">
+                        <div class="horizon-title">H1 — Compliance (current)</div>
+                        <div class="horizon-badge">Risque opérationnel</div>
+                    </div>
+                    <div class="horizon-kpis">
+                        <div class="kpi-row">
+                            <span class="kpi-label">Taux fiabilité sources</span>
+                            <span class="kpi-target">100% <span>target</span></span>
+                        </div>
+                        <div class="kpi-row">
+                            <span class="kpi-label">Taux exactitude</span>
+                            <span class="kpi-target">98% <span>> 98%</span></span>
+                        </div>
+                        <div class="kpi-row">
+                            <span class="kpi-label">Fréquence MAJ</span>
+                            <span class="kpi-target">Quotidienne <span>temps réel idéal</span></span>
+                        </div>
+                    </div>
+                    <div class="horizon-section-title">Alertes critiques</div>
+                    <ul class="horizon-list">
+                        <li>Obligation A — Non conforme sur 1 produit</li>
+                        <li>Certification B — Audit à planifier</li>
+                        <li>Norme C — Mise à jour version 2026</li>
+                    </ul>
+                    <div class="horizon-footer">
+                        <span>Zone: UE / US</span>
+                        <span class="confidence-pill">Confiance données: haute</span>
+                    </div>
+                </article>
+
+                <!-- H2 -->
+                <article class="horizon-card" data-horizon="h2">
+                    <div class="horizon-header">
+                        <div class="horizon-title">H2 — Upcoming rules</div>
+                        <div class="horizon-badge">12–36 mois</div>
+                    </div>
+                    <div class="horizon-kpis">
+                        <div class="kpi-row">
+                            <span class="kpi-label">Couverture drafts</span>
+                            <span class="kpi-target">92% <span>> 90%</span></span>
+                        </div>
+                        <div class="kpi-row">
+                            <span class="kpi-label">Score proactivité</span>
+                            <span class="kpi-target">Élevé <span>early signals</span></span>
+                        </div>
+                        <div class="kpi-row">
+                            <span class="kpi-label">Diversité sources</span>
+                            <span class="kpi-target">Équilibrée <span>institutions / industrie</span></span>
+                        </div>
+                    </div>
+                    <div class="horizon-section-title">Drafts & consultations</div>
+                    <ul class="horizon-list">
+                        <li>Règle X (Q3 2026) — phase finale</li>
+                        <li>Standard Y (2027) — consultation publique</li>
+                        <li>Directive Z — positionnement à préparer</li>
+                    </ul>
+                    <div class="horizon-footer">
+                        <span>3 échéances majeures</span>
+                        <span class="confidence-pill">Confiance données: moyenne/haute</span>
+                    </div>
+                </article>
+
+                <!-- H3 -->
+                <article class="horizon-card" data-horizon="h3">
+                    <div class="horizon-header">
+                        <div class="horizon-title">H3 — Future signals</div>
+                        <div class="horizon-badge">> 3 ans</div>
+                    </div>
+                    <div class="horizon-kpis">
+                        <div class="kpi-row">
+                            <span class="kpi-label">Signaux détectés / mois</span>
+                            <span class="kpi-target">12 <span>tendance ↑</span></span>
+                        </div>
+                        <div class="kpi-row">
+                            <span class="kpi-label">Score innovation</span>
+                            <span class="kpi-target">76% <span>> 70%</span></span>
+                        </div>
+                        <div class="kpi-row">
+                            <span class="kpi-label">Valeur stratégique</span>
+                            <span class="kpi-target">Élevée <span>à prioriser</span></span>
+                        </div>
+                    </div>
+                    <div class="horizon-section-title">Tendances émergentes</div>
+                    <ul class="horizon-list">
+                        <li>Tech émergente A — forte traction</li>
+                        <li>Sujet non régulé B — probable cadrage UE</li>
+                        <li>Signal faible C — confiance: moyenne</li>
+                    </ul>
+                    <div class="horizon-footer">
+                        <span>Horizon: 2028–2030</span>
+                        <span class="confidence-pill">Confiance données: variable</span>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Timeline & sources -->
+            <section class="bottom-grid">
+                <article class="timeline-card">
+                    <div class="section-header">
+                        <div class="section-title">Timeline / Historique</div>
+                        <div class="section-tools">
+                            <select class="select" id="timelineFilter">
+                                <option value="all">Tout afficher</option>
+                                <option value="h1">Compliance (H1)</option>
+                                <option value="h2">Upcoming (H2)</option>
+                                <option value="h3">Signals (H3)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="timeline-list" id="timelineList">
+                        <!-- JS injecte les événements -->
+                    </div>
+                </article>
+
+                <article class="sources-card">
+                    <div class="section-header">
+                        <div class="section-title">Sources & preuves</div>
+                    </div>
+                    <div class="sources-tags" id="sourcesTags">
+                        <div class="source-pill" data-type="official">Officielles (régulateurs, législateurs)</div>
+                        <div class="source-pill" data-type="experts">Experts (think tanks, académiques)</div>
+                        <div class="source-pill" data-type="industry">Industrie (associations, fédérations)</div>
+                        <div class="source-pill" data-type="standards">Standards (ISO, CEN)</div>
+                        <div class="source-pill" data-type="archives">Archives (versioning, audit trail)</div>
+                    </div>
+                    <div class="sources-footnote" id="sourcesFootnote">
+                        Sélectionne un type de source pour voir son poids dans le scoring global.
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+    // ----- State -----
+    const state = {
+        sources: 45,
+        coverage: 85,
+        maturity: 74,
+        riskLevel: "medium", // low, medium, high
+        theme: "dark",
+        sparklineData: [68, 70, 69, 72, 71, 73, 74],
+        timelineEvents: [
+            { date: "Jan 2026", label: "Règle A adoptée", meta: "H1 · Impact produit X", horizon: "h1" },
+            { date: "Mar 2026", label: "Consultation B ouverte", meta: "H2 · Deadline juin 2026", horizon: "h2" },
+            { date: "Avr 2026", label: "Signal détecté sur tech Y", meta: "H3 · Veille renforcée", horizon: "h3" },
+            { date: "Mai 2026", label: "Nouvelle source officielle intégrée", meta: "H1/H2 · fiabilité ↑", horizon: "h1" }
+        ],
+        sourcesWeights: {
+            official: 0.4,
+            experts: 0.2,
+            industry: 0.15,
+            standards: 0.15,
+            archives: 0.1
+        }
+    };
+
+    // ----- Utilities -----
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
+
+    function formatTime(date) {
+        return date.toLocaleTimeString("fr-FR", { hour12: false });
+    }
+
+    function formatDate(date) {
+        return date.toLocaleDateString("fr-FR");
+    }
+
+    // Animated counters
+    function animateNumber(el, target, suffix = "", duration = 400) {
+        const start = Number(el.textContent.replace(/[^0-9]/g, "")) || 0;
+        const startTime = performance.now();
+
+        function tick(now) {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const current = Math.round(start + (target - start) * progress);
+            el.textContent = current + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+    }
+
+    // Sparkline
+    function renderSparkline() {
+        const container = $("#sparklineContainer");
+        const w = container.clientWidth || 300;
+        const h = container.clientHeight || 40;
+        const data = state.sparklineData;
+        const min = Math.min(...data);
+        const max = Math.max(...data);
+        const stepX = w / (data.length - 1 || 1);
+
+        const points = data.map((v, i) => {
+            const x = i * stepX;
+            const y = h - ((v - min) / (max - min || 1)) * (h - 6) - 3;
+            return `${x.toFixed(1)},${y.toFixed(1)}`;
+        }).join(" ");
+
+        container.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}">
+            <polyline
+                fill="none"
+                stroke="rgba(56,189,248,0.7)"
+                stroke-width="1.5"
+                points="${points}"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+        </svg>`;
+    }
+
+    // Timeline
+    function renderTimeline(filter = "all") {
+        const list = $("#timelineList");
+        list.innerHTML = "";
+        state.timelineEvents
+            .filter(ev => filter === "all" || ev.horizon === filter)
+            .forEach((ev, idx) => {
+                const row = document.createElement("div");
+                row.className = "timeline-item";
+                row.innerHTML = `
+                    <span class="timeline-date">${ev.date}</span>
+                    <div class="timeline-main">
+                        <span class="timeline-label">${ev.label}</span>
+                        <span class="timeline-meta">${ev.meta}</span>
+                    </div>
+                    <span class="timeline-dot" style="background:${dotColor(ev.horizon)}"></span>
+                `;
+                list.appendChild(row);
+            });
+    }
+
+    function dotColor(horizon) {
+        if (horizon === "h1") return "#22c55e";
+        if (horizon === "h2") return "#eab308";
+        if (horizon === "h3") return "#f97316";
+        return "#38bdf8";
+    }
+
+    // Tooltip
+    const tooltip = $("#tooltip");
+    function attachTooltips() {
+        $$(".metric-card").forEach(card => {
+            const text = card.dataset.tooltip;
+            if (!text) return;
+            card.addEventListener("mouseenter", () => {
+                tooltip.textContent = text;
+                tooltip.classList.add("visible");
+            });
+            card.addEventListener("mousemove", (e) => {
+                tooltip.style.left = e.clientX + 12 + "px";
+                tooltip.style.top = e.clientY + 12 + "px";
+            });
+            card.addEventListener("mouseleave", () => {
+                tooltip.classList.remove("visible");
+            });
+        });
+    }
+
+    // Theme toggle
+    function initThemeToggle() {
+        const btn = $("#themeToggle");
+        btn.addEventListener("click", () => {
+            const current = document.body.getAttribute("data-theme");
+            const next = current === "dark" ? "light" : "dark";
+            document.body.setAttribute("data-theme", next);
+            btn.textContent = next === "dark" ? "Mode clair" : "Mode sombre";
+        });
+    }
+
+    // View filters (H1/H2/H3)
+    function initViewFilters() {
+        $("#viewList").addEventListener("click", (e) => {
+            const item = e.target.closest(".sidebar-item");
+            if (!item) return;
+            $$("#viewList .sidebar-item").forEach(li => li.classList.remove("active"));
+            item.classList.add("active");
+            const view = item.dataset.view;
+            filterHorizons(view);
+        });
+    }
+
+    function filterHorizons(view) {
+        $$("[data-horizon]").forEach(card => {
+            const h = card.dataset.horizon;
+            card.style.display = (view === "all" || view === h) ? "" : "none";
+        });
+    }
+
+    // Quick filters (risk, innovation)
+    function initQuickFilters() {
+        $("#quickFilters").addEventListener("click", (e) => {
+            const item = e.target.closest(".sidebar-item");
+            if (!item) return;
+            const filter = item.dataset.filter;
+            if (item.classList.contains("active")) {
+                item.classList.remove("active");
+                filterHorizons($("#viewList .sidebar-item.active").dataset.view);
+                $("#riskLabel").textContent = "Risque global: moyen";
+                return;
+            }
+            $$("#quickFilters .sidebar-item").forEach(li => li.classList.remove("active"));
+            item.classList.add("active");
+
+            if (filter === "risk") {
+                // Ne montrer que H1 et H2
+                $$("[data-horizon]").forEach(card => {
+                    const h = card.dataset.horizon;
+                    card.style.display = (h === "h1" || h === "h2") ? "" : "none";
+                });
+                $("#riskLabel").textContent = "Risque global: focalisé sur H1/H2";
+            }
+            if (filter === "innovation") {
+                // Ne montrer que H3
+                $$("[data-horizon]").forEach(card => {
+                    const h = card.dataset.horizon;
+                    card.style.display = (h === "h3") ? "" : "none";
+                });
+                $("#riskLabel").textContent = "Vue centrée innovation / signaux faibles";
+            }
+        });
+    }
+
+    // Source tags
+    function initSources() {
+        const tags = $$("#sourcesTags .source-pill");
+        const footnote = $("#sourcesFootnote");
+        tags.forEach(tag => {
+            tag.addEventListener("click", () => {
+                tags.forEach(t => t.classList.remove("active"));
+                tag.classList.add("active");
+                const type = tag.dataset.type;
+                const weight = state.sourcesWeights[type] ?? 0;
+                const pct = Math.round(weight * 100);
+                footnote.textContent = `Ce type de source pèse environ ${pct}% dans le scoring de fiabilité et de couverture.`;
+            });
+        });
+    }
+
+    // Timeline filter
+    function initTimelineFilter() {
+        $("#timelineFilter").addEventListener("change", (e) => {
+            renderTimeline(e.target.value);
+        });
+    }
+
+    // Simulate update
+    function initSimulateButton() {
+        $("#simulateBtn").addEventListener("click", () => {
+            const now = new Date();
+            $("#lastSync").textContent = `${formatDate(now)} ${formatTime(now)}`;
+            $("#metricMaj").textContent = formatDate(now);
+            $("#metricMajTime").textContent = formatTime(now);
+            // Petit bump sur sources/couverture/maturité
+            state.sources += 1;
+            state.coverage = Math.min(100, state.coverage + 1);
+            state.maturity = Math.min(100, state.maturity + 1);
+            animateNumber($("#metricSources"), state.sources);
+            animateNumber($("#metricCoverage"), state.coverage, "%");
+            animateNumber($("#metricMaturity"), state.maturity);
+            // Sparkline: ajoute un point
+            state.sparklineData.push(state.maturity);
+            if (state.sparklineData.length > 10) state.sparklineData.shift();
+            renderSparkline();
+        });
+    }
+
+    // Clock in sidebar
+    function startClock() {
+        const el = $("#sidebarClock");
+        function tick() {
+            el.textContent = formatTime(new Date());
+        }
+        tick();
+        setInterval(tick, 1000);
+    }
+
+    // Init
+    window.addEventListener("DOMContentLoaded", () => {
+        renderSparkline();
+        renderTimeline("all");
+        attachTooltips();
+        initThemeToggle();
+        initViewFilters();
+        initQuickFilters();
+        initSources();
+        initTimelineFilter();
+        initSimulateButton();
+        startClock();
+    });
+</script>
+</body>
+</html>
