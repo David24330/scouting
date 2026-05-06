@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Scouting Réglementaire</title>
+    <title>Regulatory Scouting Dashboard</title>
     <style>
         :root {
             --bg-main: #0f172a;
@@ -621,13 +621,13 @@
     <div class="top-bar">
         <div class="top-left">
             <div class="app-badge">Regulatory scouting</div>
-            <div class="top-title">Dashboard Scouting Réglementaire</div>
+            <div class="top-title">Regulatory Scouting Dashboard</div>
         </div>
         <div class="top-actions">
-            <button class="btn btn-ghost" id="themeToggle">Mode clair</button>
-            <button class="btn btn-ghost" id="simulateBtn">Simuler maj</button>
+            <button class="btn btn-ghost" id="themeToggle">Light mode</button>
+            <button class="btn btn-ghost" id="simulateBtn">Simulate update</button>
             <button class="btn btn-primary">
-                <span>Exporter état</span>
+                <span>Export status</span>
             </button>
         </div>
     </div>
@@ -635,39 +635,39 @@
     <div class="layout-grid">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="sidebar-section-title">Vues</div>
+            <div class="sidebar-section-title">Views</div>
             <ul class="sidebar-list" id="viewList">
                 <li class="sidebar-item active" data-view="all">
-                    <span><span>•</span>Vue générale</span>
+                    <span><span>•</span>Overview view</span>
                     <span class="sidebar-chip">H1/H2/H3</span>
                 </li>
                 <li class="sidebar-item" data-view="h1">
                     <span><span>H1</span>Compliance</span>
-                    <span class="sidebar-chip">Risque court terme</span>
+                    <span class="sidebar-chip">Short-term risk</span>
                 </li>
                 <li class="sidebar-item" data-view="h2">
                     <span><span>H2</span>Upcoming rules</span>
-                    <span class="sidebar-chip">12–36 mois</span>
+                    <span class="sidebar-chip">12–36 months</span>
                 </li>
                 <li class="sidebar-item" data-view="h3">
                     <span><span>H3</span>Future signals</span>
-                    <span class="sidebar-chip">> 3 ans</span>
+                    <span class="sidebar-chip">> 3 years</span>
                 </li>
             </ul>
 
-            <div class="sidebar-section-title">Filtres rapides</div>
+            <div class="sidebar-section-title">Quick filters</div>
             <ul class="sidebar-list" id="quickFilters">
                 <li class="sidebar-item" data-filter="risk">
-                    <span><span>⚠</span>Montrer uniquement le risque</span>
+                    <span><span>⚠</span>Show risk only</span>
                 </li>
                 <li class="sidebar-item" data-filter="innovation">
-                    <span><span>✧</span>Focus innovation</span>
+                    <span><span>✧</span>Focus on innovation</span>
                 </li>
             </ul>
 
             <div class="sidebar-footer">
-                <div>Horloge système: <span id="sidebarClock">--:--:--</span></div>
-                <div>Confiance calcul : 97,8%</div>
+                <div>System clock: <span id="sidebarClock">--:--:--</span></div>
+                <div>Computation confidence: 97.8%</div>
             </div>
         </aside>
 
@@ -676,39 +676,39 @@
             <!-- Summary -->
             <section class="summary-card">
                 <div class="summary-top">
-                    <div class="summary-title">État global du scouting</div>
+                    <div class="summary-title">Global scouting status</div>
                     <div class="summary-right">
-                        <span>Dernière synchronisation: <span id="lastSync">06/05/2026 09:58</span></span>
+                        <span>Last synchronization: <span id="lastSync">05/06/2026 09:58</span></span>
                         <span class="risk-pill">
                             <span class="risk-dot" id="riskDot"></span>
-                            <span id="riskLabel">Risque global: moyen</span>
+                            <span id="riskLabel">Global risk: medium</span>
                         </span>
                     </div>
                 </div>
                 <div class="metrics-row">
-                    <div class="metric-card" data-tooltip="Date et heure de la dernière mise à jour consolidée.">
-                        <div class="metric-label">Dernière MAJ</div>
-                        <div class="metric-value" id="metricMaj">06/05/2026</div>
+                    <div class="metric-card" data-tooltip="Date and time of the last consolidated update.">
+                        <div class="metric-label">Last update</div>
+                        <div class="metric-value" id="metricMaj">05/06/2026</div>
                         <div class="metric-sub" id="metricMajTime">09:58:00</div>
                     </div>
-                    <div class="metric-card" data-tooltip="Nombre total de sources suivies dans le scope.">
-                        <div class="metric-label">Nb sources</div>
+                    <div class="metric-card" data-tooltip="Total number of sources tracked within the scope.">
+                        <div class="metric-label">Number of sources</div>
                         <div class="metric-value" id="metricSources">45</div>
-                        <div class="metric-sub">Officielles, industrie, experts</div>
+                        <div class="metric-sub">Official, industry, experts</div>
                     </div>
-                    <div class="metric-card" data-tooltip="Couverture estimée du périmètre réglementaire pertinent.">
-                        <div class="metric-label">Couverture</div>
+                    <div class="metric-card" data-tooltip="Estimated coverage of the relevant regulatory perimeter.">
+                        <div class="metric-label">Coverage</div>
                         <div class="metric-value" id="metricCoverage">85%</div>
                         <div class="metric-sub pill-green">Target: ≥ 90%</div>
                     </div>
-                    <div class="metric-card" data-tooltip="Score de maturité global du dispositif de scouting.">
-                        <div class="metric-label">Maturité scouting</div>
+                    <div class="metric-card" data-tooltip="Overall maturity score of the scouting system.">
+                        <div class="metric-label">Scouting maturity</div>
                         <div class="metric-value" id="metricMaturity">74</div>
-                        <div class="metric-sub">/100 · en progression</div>
+                        <div class="metric-sub">/100 · improving</div>
                     </div>
                 </div>
                 <div class="sparkline" id="sparklineContainer">
-                    <!-- JS injecte un mini graph -->
+                    <!-- JS injects a mini graph -->
                 </div>
             </section>
 
@@ -718,31 +718,31 @@
                 <article class="horizon-card" data-horizon="h1">
                     <div class="horizon-header">
                         <div class="horizon-title">H1 — Compliance (current)</div>
-                        <div class="horizon-badge">Risque opérationnel</div>
+                        <div class="horizon-badge">Operational risk</div>
                     </div>
                     <div class="horizon-kpis">
                         <div class="kpi-row">
-                            <span class="kpi-label">Taux fiabilité sources</span>
+                            <span class="kpi-label">Source reliability rate</span>
                             <span class="kpi-target">100% <span>target</span></span>
                         </div>
                         <div class="kpi-row">
-                            <span class="kpi-label">Taux exactitude</span>
+                            <span class="kpi-label">Accuracy rate</span>
                             <span class="kpi-target">98% <span>> 98%</span></span>
                         </div>
                         <div class="kpi-row">
-                            <span class="kpi-label">Fréquence MAJ</span>
-                            <span class="kpi-target">Quotidienne <span>temps réel idéal</span></span>
+                            <span class="kpi-label">Update frequency</span>
+                            <span class="kpi-target">Daily <span>real time ideal</span></span>
                         </div>
                     </div>
-                    <div class="horizon-section-title">Alertes critiques</div>
+                    <div class="horizon-section-title">Critical alerts</div>
                     <ul class="horizon-list">
-                        <li>Obligation A — Non conforme sur 1 produit</li>
-                        <li>Certification B — Audit à planifier</li>
-                        <li>Norme C — Mise à jour version 2026</li>
+                        <li>Obligation A — Non-compliant on 1 product</li>
+                        <li>Certification B — Audit to schedule</li>
+                        <li>Standard C — 2026 version update</li>
                     </ul>
                     <div class="horizon-footer">
-                        <span>Zone: UE / US</span>
-                        <span class="confidence-pill">Confiance données: haute</span>
+                        <span>Zone: EU / US</span>
+                        <span class="confidence-pill">Data confidence: high</span>
                     </div>
                 </article>
 
@@ -750,31 +750,31 @@
                 <article class="horizon-card" data-horizon="h2">
                     <div class="horizon-header">
                         <div class="horizon-title">H2 — Upcoming rules</div>
-                        <div class="horizon-badge">12–36 mois</div>
+                        <div class="horizon-badge">12–36 months</div>
                     </div>
                     <div class="horizon-kpis">
                         <div class="kpi-row">
-                            <span class="kpi-label">Couverture drafts</span>
+                            <span class="kpi-label">Draft coverage</span>
                             <span class="kpi-target">92% <span>> 90%</span></span>
                         </div>
                         <div class="kpi-row">
-                            <span class="kpi-label">Score proactivité</span>
-                            <span class="kpi-target">Élevé <span>early signals</span></span>
+                            <span class="kpi-label">Proactivity score</span>
+                            <span class="kpi-target">High <span>early signals</span></span>
                         </div>
                         <div class="kpi-row">
-                            <span class="kpi-label">Diversité sources</span>
-                            <span class="kpi-target">Équilibrée <span>institutions / industrie</span></span>
+                            <span class="kpi-label">Source diversity</span>
+                            <span class="kpi-target">Balanced <span>institutions / industry</span></span>
                         </div>
                     </div>
                     <div class="horizon-section-title">Drafts & consultations</div>
                     <ul class="horizon-list">
-                        <li>Règle X (Q3 2026) — phase finale</li>
-                        <li>Standard Y (2027) — consultation publique</li>
-                        <li>Directive Z — positionnement à préparer</li>
+                        <li>Rule X (Q3 2026) — final phase</li>
+                        <li>Standard Y (2027) — public consultation</li>
+                        <li>Directive Z — position to prepare</li>
                     </ul>
                     <div class="horizon-footer">
-                        <span>3 échéances majeures</span>
-                        <span class="confidence-pill">Confiance données: moyenne/haute</span>
+                        <span>3 major deadlines</span>
+                        <span class="confidence-pill">Data confidence: medium/high</span>
                     </div>
                 </article>
 
@@ -782,31 +782,31 @@
                 <article class="horizon-card" data-horizon="h3">
                     <div class="horizon-header">
                         <div class="horizon-title">H3 — Future signals</div>
-                        <div class="horizon-badge">> 3 ans</div>
+                        <div class="horizon-badge">> 3 years</div>
                     </div>
                     <div class="horizon-kpis">
                         <div class="kpi-row">
-                            <span class="kpi-label">Signaux détectés / mois</span>
-                            <span class="kpi-target">12 <span>tendance ↑</span></span>
+                            <span class="kpi-label">Signals detected / month</span>
+                            <span class="kpi-target">12 <span>trend ↑</span></span>
                         </div>
                         <div class="kpi-row">
-                            <span class="kpi-label">Score innovation</span>
+                            <span class="kpi-label">Innovation score</span>
                             <span class="kpi-target">76% <span>> 70%</span></span>
                         </div>
                         <div class="kpi-row">
-                            <span class="kpi-label">Valeur stratégique</span>
-                            <span class="kpi-target">Élevée <span>à prioriser</span></span>
+                            <span class="kpi-label">Strategic value</span>
+                            <span class="kpi-target">High <span>to prioritize</span></span>
                         </div>
                     </div>
-                    <div class="horizon-section-title">Tendances émergentes</div>
+                    <div class="horizon-section-title">Emerging trends</div>
                     <ul class="horizon-list">
-                        <li>Tech émergente A — forte traction</li>
-                        <li>Sujet non régulé B — probable cadrage UE</li>
-                        <li>Signal faible C — confiance: moyenne</li>
+                        <li>Emerging tech A — strong traction</li>
+                        <li>Unregulated topic B — likely EU framework</li>
+                        <li>Weak signal C — confidence: medium</li>
                     </ul>
                     <div class="horizon-footer">
                         <span>Horizon: 2028–2030</span>
-                        <span class="confidence-pill">Confiance données: variable</span>
+                        <span class="confidence-pill">Data confidence: variable</span>
                     </div>
                 </article>
             </section>
@@ -815,10 +815,10 @@
             <section class="bottom-grid">
                 <article class="timeline-card">
                     <div class="section-header">
-                        <div class="section-title">Timeline / Historique</div>
+                        <div class="section-title">Timeline / History</div>
                         <div class="section-tools">
                             <select class="select" id="timelineFilter">
-                                <option value="all">Tout afficher</option>
+                                <option value="all">Show all</option>
                                 <option value="h1">Compliance (H1)</option>
                                 <option value="h2">Upcoming (H2)</option>
                                 <option value="h3">Signals (H3)</option>
@@ -826,23 +826,23 @@
                         </div>
                     </div>
                     <div class="timeline-list" id="timelineList">
-                        <!-- JS injecte les événements -->
+                        <!-- JS injects the events -->
                     </div>
                 </article>
 
                 <article class="sources-card">
                     <div class="section-header">
-                        <div class="section-title">Sources & preuves</div>
+                        <div class="section-title">Sources & evidence</div>
                     </div>
                     <div class="sources-tags" id="sourcesTags">
-                        <div class="source-pill" data-type="official">Officielles (régulateurs, législateurs)</div>
-                        <div class="source-pill" data-type="experts">Experts (think tanks, académiques)</div>
-                        <div class="source-pill" data-type="industry">Industrie (associations, fédérations)</div>
+                        <div class="source-pill" data-type="official">Official (regulators, legislators)</div>
+                        <div class="source-pill" data-type="experts">Experts (think tanks, academia)</div>
+                        <div class="source-pill" data-type="industry">Industry (associations, federations)</div>
                         <div class="source-pill" data-type="standards">Standards (ISO, CEN)</div>
                         <div class="source-pill" data-type="archives">Archives (versioning, audit trail)</div>
                     </div>
                     <div class="sources-footnote" id="sourcesFootnote">
-                        Sélectionne un type de source pour voir son poids dans le scoring global.
+                        Select a source type to see its weight in the global scoring.
                     </div>
                 </article>
             </section>
@@ -862,10 +862,10 @@
         theme: "dark",
         sparklineData: [68, 70, 69, 72, 71, 73, 74],
         timelineEvents: [
-            { date: "Jan 2026", label: "Règle A adoptée", meta: "H1 · Impact produit X", horizon: "h1" },
-            { date: "Mar 2026", label: "Consultation B ouverte", meta: "H2 · Deadline juin 2026", horizon: "h2" },
-            { date: "Avr 2026", label: "Signal détecté sur tech Y", meta: "H3 · Veille renforcée", horizon: "h3" },
-            { date: "Mai 2026", label: "Nouvelle source officielle intégrée", meta: "H1/H2 · fiabilité ↑", horizon: "h1" }
+            { date: "Jan 2026", label: "Rule A adopted", meta: "H1 · Impact on product X", horizon: "h1" },
+            { date: "Mar 2026", label: "Consultation B opened", meta: "H2 · Deadline June 2026", horizon: "h2" },
+            { date: "Apr 2026", label: "Signal detected on tech Y", meta: "H3 · Enhanced monitoring", horizon: "h3" },
+            { date: "May 2026", label: "New official source integrated", meta: "H1/H2 · reliability ↑", horizon: "h1" }
         ],
         sourcesWeights: {
             official: 0.4,
@@ -987,7 +987,7 @@
             const current = document.body.getAttribute("data-theme");
             const next = current === "dark" ? "light" : "dark";
             document.body.setAttribute("data-theme", next);
-            btn.textContent = next === "dark" ? "Mode clair" : "Mode sombre";
+            btn.textContent = next === "dark" ? "Light mode" : "Dark mode";
         });
     }
 
@@ -1019,27 +1019,27 @@
             if (item.classList.contains("active")) {
                 item.classList.remove("active");
                 filterHorizons($("#viewList .sidebar-item.active").dataset.view);
-                $("#riskLabel").textContent = "Risque global: moyen";
+                $("#riskLabel").textContent = "Global risk: medium";
                 return;
             }
             $$("#quickFilters .sidebar-item").forEach(li => li.classList.remove("active"));
             item.classList.add("active");
 
             if (filter === "risk") {
-                // Ne montrer que H1 et H2
+                // Show only H1 and H2
                 $$("[data-horizon]").forEach(card => {
                     const h = card.dataset.horizon;
                     card.style.display = (h === "h1" || h === "h2") ? "" : "none";
                 });
-                $("#riskLabel").textContent = "Risque global: focalisé sur H1/H2";
+                $("#riskLabel").textContent = "Global risk: focused on H1/H2";
             }
             if (filter === "innovation") {
-                // Ne montrer que H3
+                // Show only H3
                 $$("[data-horizon]").forEach(card => {
                     const h = card.dataset.horizon;
                     card.style.display = (h === "h3") ? "" : "none";
                 });
-                $("#riskLabel").textContent = "Vue centrée innovation / signaux faibles";
+                $("#riskLabel").textContent = "View focused on innovation / weak signals";
             }
         });
     }
@@ -1055,7 +1055,7 @@
                 const type = tag.dataset.type;
                 const weight = state.sourcesWeights[type] ?? 0;
                 const pct = Math.round(weight * 100);
-                footnote.textContent = `Ce type de source pèse environ ${pct}% dans le scoring de fiabilité et de couverture.`;
+                footnote.textContent = `This source type weighs about ${pct}% in the reliability and coverage scoring.`;
             });
         });
     }
@@ -1074,14 +1074,14 @@
             $("#lastSync").textContent = `${formatDate(now)} ${formatTime(now)}`;
             $("#metricMaj").textContent = formatDate(now);
             $("#metricMajTime").textContent = formatTime(now);
-            // Petit bump sur sources/couverture/maturité
+            // Small bump on sources/coverage/maturity
             state.sources += 1;
             state.coverage = Math.min(100, state.coverage + 1);
             state.maturity = Math.min(100, state.maturity + 1);
             animateNumber($("#metricSources"), state.sources);
             animateNumber($("#metricCoverage"), state.coverage, "%");
             animateNumber($("#metricMaturity"), state.maturity);
-            // Sparkline: ajoute un point
+            // Sparkline: add a point
             state.sparklineData.push(state.maturity);
             if (state.sparklineData.length > 10) state.sparklineData.shift();
             renderSparkline();
